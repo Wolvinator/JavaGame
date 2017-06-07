@@ -91,6 +91,7 @@ Image clouds=kit.getImage("res/SkyBackground.jpg");
         public void actionPerformed( ActionEvent tf )
         {
             //Do something with each action
+        	System.out.println("Performed an action");
         } 
 
     }
