@@ -25,7 +25,7 @@ private static JPanel mainPanel;
 
 
 Toolkit kit = Toolkit.getDefaultToolkit(); //Temporary, proof of concept
-Image clouds=kit.getImage("res/SkyBackground.jpg");
+Image clouds=kit.getImage("res/Diamondsbackground.png");
 	
 	
 	
