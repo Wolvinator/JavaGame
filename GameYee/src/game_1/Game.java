@@ -25,7 +25,7 @@ private static JPanel mainPanel;
 
 
 Toolkit kit = Toolkit.getDefaultToolkit(); //Temporary, proof of concept
-Image clouds=kit.getImage("res/SkyBackground.jpg");
+Image clouds=kit.getImage("res/gif.gif");
 	
 	
 	
@@ -47,13 +47,17 @@ Image clouds=kit.getImage("res/SkyBackground.jpg");
 	
 	
 	
-	 public void paint(Graphics g) {
-	        super.paint(g);
-	       
-	        Graphics2D g2d = (Graphics2D) g;
-	        if(gamePainter==null)gamePainter=new Painter(this);
-	        gamePainter.paint(clouds, 0, 0, getWidth(), getHeight(), getHeight(), g2d);
-	    }
+	public void paint(Graphics g)
+	 {
+	    super.paint(g);
+	    int x=getWidth();
+	    int y=getHeight();
+	    Painter.setWH(x, y);
+	    Graphics2D g2d = (Graphics2D) g;
+	    if(gamePainter==null)gamePainter=new Painter(this);
+	    if(Character.charPainter==null)Character.charPainter=new Painter(this);
+	    gamePainter.paint(clouds, 0.0, 0.0, 1.0, 1.0, g2d);
+	}
 	
 	
 	
