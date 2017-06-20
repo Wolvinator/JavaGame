@@ -18,7 +18,7 @@ public class Character {
 	public Direction direction=new Direction();
 	static Painter charPainter;
 	Image sprite=kit.getImage("res/Joe.png");
-	double zoomFactor=3.0;
+	double zoomFactor=2.0;
 	int clWidth=0;
 	int clHeight=0;
 	//Distance to middle in X, distance in y, left side width, right side width, distance to new sprite, number of sprites, lapses per change, height
@@ -54,11 +54,11 @@ public class Character {
 	}
 	public void changeY()
 	{
-		if(direction.up)
+		if(direction.up && yLocation+yLocation2<1)
 		{
 			yLocation+=0.01;
 		}
-		if(direction.down)
+		if(direction.down&& yLocation>0)
 		{
 			yLocation-=0.01;
 		}
@@ -69,10 +69,14 @@ public class Character {
 		double x= xLocation-(1/(2*zoomFactor));
 		double y= yLocation-(1/(2*zoomFactor));
 		double size=(1/zoomFactor);
+		double playerWidth=xLocation2/zoomFactor;
+		double playerHeight=yLocation2/zoomFactor;
 		clWidth=clouds.getWidth();
 		clHeight=clouds.getHeight();
 		
 		//return clouds;
+		System.out.println(x);
+		System.out.println();
 		if(x<0)
 		{
 			x=0;
@@ -81,29 +85,23 @@ public class Character {
 		else if((x+size)>1)
 		{
 			x=1.0-size;
-			xLocation3=(1.0-xLocation)*zoomFactor;
+			//xLocation3=(1.0-xLocation)*zoomFactor;
 			xLocation3=(zoomFactor*(xLocation%(1/zoomFactor)));
 		}
+		System.out.println(y);
 		if(y<0)
 		{
+			System.out.println("In here");
 			y=0;
 			yLocation3=yLocation*zoomFactor;
 		}
-		else if((x+size)>1)
+		else if((y+size)>1)
 		{
 			y=1.0-size;
-			yLocation3=(1.0-yLocation)*zoomFactor;
+			//yLocation3=(1.0-yLocation)*zoomFactor;
 			yLocation3=(zoomFactor*(yLocation%(1/zoomFactor)));
 		}
-		
-		System.out.println(x);
-		System.out.println(y);
-		System.out.println(size);
-		System.out.println((int)(x*clWidth));
-		System.out.println((int)(y*clHeight));
-		System.out.println((int)(size*clWidth));
-		System.out.println((int)(size*clHeight));
-		return clouds.getSubimage((int)(x*clWidth),(int)(y*clHeight),(int)(size*clWidth),(int)(size*clHeight));
+		return clouds.getSubimage((int)(x*clWidth),(int)((1-y-size)*clHeight),(int)(size*clWidth),(int)(size*clHeight));
 
 	}
 	
