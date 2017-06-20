@@ -18,8 +18,7 @@ public class Character {
 	public Direction direction=new Direction();
 	static Painter charPainter;
 	Image sprite=kit.getImage("res/Joe.png");
-	int zoomFactor=1;
-	int yzoomFactor=1;
+	double zoomFactor=3.0;
 	int clWidth=0;
 	int clHeight=0;
 	//Distance to middle in X, distance in y, left side width, right side width, distance to new sprite, number of sprites, lapses per change, height
@@ -40,7 +39,7 @@ public class Character {
 	}
 	public void paintChar(Graphics2D g2d)
 	{
-		charPainter.paint(sprite, xLocation3, yLocation3, xLocation2*zoomFactor, yLocation2*yzoomFactor, g2d);
+		charPainter.paint(sprite, xLocation3, yLocation3, xLocation2*zoomFactor, yLocation2*zoomFactor, g2d);
 	}
 	public void changeX()
 	{
@@ -53,34 +52,59 @@ public class Character {
 			xLocation-=0.01;
 		}
 	}
+	public void changeY()
+	{
+		if(direction.up)
+		{
+			yLocation+=0.01;
+		}
+		if(direction.down)
+		{
+			yLocation-=0.01;
+		}
+	}
 	public BufferedImage zoom(BufferedImage clouds)
 	{
 
+		double x= xLocation-(1/(2*zoomFactor));
+		double y= yLocation-(1/(2*zoomFactor));
+		double size=(1/zoomFactor);
 		clWidth=clouds.getWidth();
-		
-
-
 		clHeight=clouds.getHeight();
-		int x = (int)(clWidth*(xLocation-((zoomFactor-1)/2)*xLocation2));
-		int y=(int)(clHeight*(yLocation-((yzoomFactor-1)/2)*yLocation2));
-		int xS=(int)(clWidth*(xLocation2*zoomFactor));
-		int yS=(int)(clHeight*(yLocation2*yzoomFactor));
-		double xSize=((double)xS/(double)clWidth);
+		
+		//return clouds;
 		if(x<0)
 		{
 			x=0;
-			xLocation3=xLocation/xSize;
+			xLocation3=xLocation*zoomFactor;
 		}
-		else if(x+xS>clWidth)
+		else if((x+size)>1)
 		{
-			x=clWidth-xS;
-			xLocation3=1.0-((1.0-xLocation)/xSize);
+			x=1.0-size;
+			xLocation3=(1.0-xLocation)*zoomFactor;
+			xLocation3=(zoomFactor*(xLocation%(1/zoomFactor)));
 		}
-		if(y<0)y=0;
-		else if(y+yS>clHeight)y=clHeight-yS;
-		return clouds.getSubimage(x,y,xS,yS);
+		if(y<0)
+		{
+			y=0;
+			yLocation3=yLocation*zoomFactor;
+		}
+		else if((x+size)>1)
+		{
+			y=1.0-size;
+			yLocation3=(1.0-yLocation)*zoomFactor;
+			yLocation3=(zoomFactor*(yLocation%(1/zoomFactor)));
+		}
 		
-		//return clouds;
+		System.out.println(x);
+		System.out.println(y);
+		System.out.println(size);
+		System.out.println((int)(x*clWidth));
+		System.out.println((int)(y*clHeight));
+		System.out.println((int)(size*clWidth));
+		System.out.println((int)(size*clHeight));
+		return clouds.getSubimage((int)(x*clWidth),(int)(y*clHeight),(int)(size*clWidth),(int)(size*clHeight));
+
 	}
 	
 	class Direction
@@ -88,11 +112,13 @@ public class Character {
 		boolean right;
 		boolean left;
 		boolean up;
+		boolean down;
 		public Direction()
 		{
 			right=false;
 			left=false;
 			up=false;
+			down=false;
 		}
 		
 		public void reset()
@@ -100,6 +126,7 @@ public class Character {
 			right=false;
 			left=false;
 			up=false;
+			down=false;
 		}
 			
 	}

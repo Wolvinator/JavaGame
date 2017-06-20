@@ -55,6 +55,7 @@ static BufferedImage clouds;
 	    int y=getHeight();
 	    Painter.setWH(x, y);
 	    Joe.changeX();
+	    Joe.changeY();
 	    Graphics2D g2d = (Graphics2D) g;
 	    if(gamePainter==null)gamePainter=new Painter(this);
 	    if(Character.charPainter==null)Character.charPainter=new Painter(this);
@@ -66,7 +67,7 @@ static BufferedImage clouds;
 	public static void setImage()
 	{
 		try {
-	            clouds = ImageIO.read(new File("res/SkyBackground.jpg"));
+	            clouds = ImageIO.read(new File("res/gif.gif"));
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
@@ -93,6 +94,11 @@ static BufferedImage clouds;
 		mainPanel.getActionMap().put("left", new Action("left"));
 		mainPanel.getActionMap().put("leftR", new Action("leftR"));
 		
+		mainPanel.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "down");
+		mainPanel.getInputMap().put(KeyStroke.getKeyStroke("released DOWN"), "downR");
+		mainPanel.getActionMap().put("down", new Action("down"));
+		mainPanel.getActionMap().put("downR", new Action("downR"));
+		
 		return mainPanel;
 		
 	}
@@ -114,6 +120,8 @@ static BufferedImage clouds;
         		case"leftR":Joe.direction.left=false;break;
         		case"up":Joe.direction.up=true;break;
         		case"upR":Joe.direction.up=false;break;
+        		case"down":Joe.direction.down=true;break;
+        		case"downR":Joe.direction.down=false;break;
         	}
         } 
 
